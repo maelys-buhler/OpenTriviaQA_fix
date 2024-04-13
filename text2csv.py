@@ -15,22 +15,22 @@ def txt_to_csv(path):
   dist4=[]
   options=[[],[],[],[]]
   with open(path, errors='ignore',mode="r") as file1:
-      files = file1.readlines()
+      lines = file1.readlines()
       i=0
-      for i in range(len(files)):
-        if files[i][0]=='\n':
-          if len(files) == i + 1:
+      for i in range(len(lines)):
+        if lines[i][0]=='\n':
+          if len(lines) == i + 1:
             continue
           #avoid questions begginning with #, which break the pattern
-          if len(files[i+1]) >= 3 and files[i+1][3]=='#':
+          if len(lines[i+1]) >= 3 and lines[i+1][3]=='#':
             continue   
           
           try:
             #QUESTION'S TEXT
             j = 1
             question_text = ""
-            while files[i+j][0] != '^':   
-              question_text += files[i+j]
+            while lines[i+j][0] != '^':   
+              question_text += lines[i+j]
               j += 1
             #remove #Q on the beginning
             question_text = question_text[3:len(question_text)-1]
@@ -39,8 +39,8 @@ def txt_to_csv(path):
         
             #QUESTION'S ANSWER
             answer_text = ""
-            while files[i+j][0] != 'A':   
-              answer_text += files[i+j]
+            while lines[i+j][0] != 'A':   
+              answer_text += lines[i+j]
               j += 1
             #remove ^ on the beginning
             answer_text = answer_text[2:len(answer_text)-1]
@@ -51,8 +51,8 @@ def txt_to_csv(path):
             options_letters = ['B', 'C', 'D', '\n']
             nb_options_found = 0
             option_text = ""
-            while files[i+j][0] != '#' and nb_options_found < 4:
-              if files[i+j][0] == options_letters[nb_options_found] or files[i+j][0] == '\n':
+            while lines[i+j][0] != '#' and nb_options_found < 4:
+              if lines[i+j][0] == options_letters[nb_options_found] or lines[i+j][0] == '\n':
                 #remove letter on the beginning             
                 option_text = option_text[2:len(option_text)-1]
                 option_text = option_text.replace('\n', ' ')
@@ -60,7 +60,7 @@ def txt_to_csv(path):
                 option_text = ""
                 nb_options_found += 1
               else:
-                option_text += files[i+j]
+                option_text += lines[i+j]
                 j += 1
             for k in range(0, len(options)):
               if len(options[k]) != len(options[0]):
